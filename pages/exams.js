@@ -1,6 +1,8 @@
+import Layout from "../components/Layout";
+
 export default function ExamList({ exams }) {
     return (
-        <div>
+        <Layout title="Exams">
             {exams.map((exam) => (
                 <div key={exam.id}>
                     <h1>{exam.name}</h1>
@@ -9,7 +11,8 @@ export default function ExamList({ exams }) {
                     <a href={"/exams/" + exam.slug}>Take exam</a>
                 </div> 
             ))}
-        </div>
+            <a href="/">Return to index</a>
+        </Layout>
     );
 }
 

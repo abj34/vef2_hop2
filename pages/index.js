@@ -1,8 +1,11 @@
-export default function ExamList({ exams }) {
+import Layout from "../components/Layout";
+
+export default function Index() {
     return (
-        <div>
-            <p>Index</p>
-        </div>
+        <Layout title="Index">
+            <p>This is the index page</p>
+            <a href="/exams">View exams</a>
+        </Layout>
     );
 }
 
