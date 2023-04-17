@@ -11,7 +11,6 @@ export default function ExamList({ exams }) {
                     <a href={"/exams/" + exam.slug}>Take exam</a>
                 </div> 
             ))}
-            <a href="/">Return to index</a>
         </Layout>
     );
 }

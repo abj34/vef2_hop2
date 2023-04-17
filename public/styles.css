@@ -32,3 +32,22 @@ footer {
     padding: 10px;
     text-align: center;
 }
+
+.nav {
+    background-color: #3f3f3f;
+    padding: 10px;
+    text-align: center;
+}
+
+.nav ul {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+}
+
+.nav a {
+  color: #da72ae;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 2em;
+}
