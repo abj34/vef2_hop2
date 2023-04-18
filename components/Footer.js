@@ -6,10 +6,8 @@ const Footer = () => {
     return (
         <footer>
             {user ? (
-        <p>Logged in as {user.username}</p>
-      ) : (
-        <p>  Arnór Bragi Jóhannsson - Benedikt Þorsteinsson - Mikael Andri Ingason<br />Hópverkefni 2 - 2023</p>
-        )}
+        <p>Logged in as {user.username}</p>):{}}
+        <p>  Arnór Bragi Jóhannsson - Benedikt Þorsteinsson - Mikael Andri Ingason<br />Hópverkefni 2 - 2023</p> 
         </footer>
     );
 };

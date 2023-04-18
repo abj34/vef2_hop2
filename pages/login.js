@@ -12,26 +12,29 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-
-    const response = await fetch("https://vef2-hop1.onrender.com/users/login", {
+    fetch("https://vef2-hop1.onrender.com/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
-    });
-    if (response.ok) {
-      console.log("Login successful!");
-      setUser({ username }); 
-      Router.push("/");
-    } else {
-      console.error("Login failed:", response.status, response.statusText);
-    }
-  }catch (error) {
-   
-    console.error("Login failed:", error);
-  }
+      body: JSON.stringify({ username, password }), // Send the login data as JSON
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Handle successful login
+          console.log("Login successful!");
+          setUser({username})
+        } else {
+          // Handle login error
+          console.error("Login failed:", response.status, response.statusText);
+        }
+      })
+      .catch((error) => {
+        // Handle fetch error
+        console.error("Login failed:", error);
+      });
+
+    // Redirect to home page after login
     Router.push("/");
   };
 
