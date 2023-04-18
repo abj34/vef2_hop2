@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import Link from "next/link";
 
-export default function Index() {
+export default function fourOfour() {
     return (
         <Layout title="404">
             <div className="centered">

@@ -1,6 +1,15 @@
+import React from "react";
 import Layout from "../components/Layout";
 
-export default function ExamList({ exams }) {
+type Exam = {
+    id: number;
+    name: string;
+    description: string;
+    slug: string;
+    image: string;
+};
+
+export default function ExamList({ exams }: { exams: Exam[] }) {
     return (
         <Layout title="Exams">
             {exams.map((exam) => (
@@ -18,7 +27,7 @@ export default function ExamList({ exams }) {
 }
 
 
-export async function getServerSideProps() {
+export const getServerSideProps = async () => {
     const result = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/exams`).then(r => r.json());
 
     return {
