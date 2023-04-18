@@ -1,14 +1,18 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+
+import styles from '../public/navbar.module.css';
 
 const Navbar = () => {
+    const router = useRouter();
+    const currentRoute = router.pathname;
+
     return (
-        <div className="nav">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/exams">Exams</a></li>
-                <li><a href="/login">Login</a></li> 
-            </ul>
-        </div>
+        <nav className={styles.nav}>
+            <Link href='/' className={currentRoute === '/' ? styles.active : styles.notActive}>Home</Link>
+            <Link href='/exams' className={currentRoute === '/exams' ? styles.active : styles.notActive}>Exams</Link>
+            <Link href='/login' className={currentRoute === '/login' ? styles.active : styles.notActive}>Login</Link>
+        </nav>
     );
 };
 

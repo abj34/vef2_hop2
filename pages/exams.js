@@ -4,10 +4,12 @@ export default function ExamList({ exams }) {
     return (
         <Layout title="Exams">
             {exams.map((exam) => (
-                <div key={exam.id}>
-                    <h1>{exam.name}</h1>
-                    <p>{exam.description}</p>
+                <div key={exam.id} className="examListing">
                     <img src={exam.image} alt={exam.name} />
+                    <div>
+                        <h2>{exam.name}</h2>
+                        <p>{exam.description}</p>
+                    </div>
                     <a href={"/exams/" + exam.slug}>Take exam</a>
                 </div> 
             ))}

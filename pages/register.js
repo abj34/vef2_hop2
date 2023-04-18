@@ -9,7 +9,7 @@ const Register = () => {
   const handleRegister = async () => {
     try {
       // Send registration data to the API endpoint
-      const response = await fetch("https://vef2-hop1.onrender.com/users/register", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,27 +32,32 @@ const Register = () => {
 
   return (
     <Layout title="Register">
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Register</button>
-      </form>
+      <div className="formArea">
+        <form onSubmit={handleRegister}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit">Login</button>
+        </form>
+        <p>Already have an account?{' '}
+          <a href="/login">Log in</a>
+        </p>
+      </div>
       </Layout>
   );
 };

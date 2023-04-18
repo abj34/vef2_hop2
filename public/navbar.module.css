@@ -1,0 +1,21 @@
+
+.nav {
+    background-color: var(--accent-color);
+    padding: 10px;
+    text-align: center;
+}
+
+.nav a {
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0 1.5em;
+  position: relative; 
+}
+
+.notActive {
+    color: rgb(219, 219, 219);
+}
+  
+.active {
+    color: white;
+}
