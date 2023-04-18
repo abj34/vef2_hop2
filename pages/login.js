@@ -1,42 +1,37 @@
 
 import Layout from "../components/Layout";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Router from "next/router";
+import { AuthContext } from "../components/AuthContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useContext(AuthContext);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Perform login functionality here
-    // You can use fetch or any other library to send the login data to the server
+    try {
 
-    // For example, using fetch:
-    fetch("https://vef2-hop1.onrender.com/users/login", {
+    const response = await fetch("https://vef2-hop1.onrender.com/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, email, password }), // Send the login data as JSON
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Handle successful login
-          console.log("Login successful!");
-        } else {
-          // Handle login error
-          console.error("Login failed:", response.status, response.statusText);
-        }
-      })
-      .catch((error) => {
-        // Handle fetch error
-        console.error("Login failed:", error);
-      });
-
-    // Redirect to home page after login
+      body: JSON.stringify({ username, password }),
+    });
+    if (response.ok) {
+      console.log("Login successful!");
+      setUser({ username }); 
+      Router.push("/");
+    } else {
+      console.error("Login failed:", response.status, response.statusText);
+    }
+  }catch (error) {
+   
+    console.error("Login failed:", error);
+  }
     Router.push("/");
   };
 

@@ -2,7 +2,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Navbar from './Navbar';
 
-const Layout = ({ children, title }) => {
+const Layout = ({ children, title, user }) => {
     return (
         <div>
             <Header title={title} />
@@ -10,7 +10,7 @@ const Layout = ({ children, title }) => {
             <main>
                 { children }
             </main>
-            <Footer />
+            <Footer isLoggedIn={!!user} username={user} />
         </div>
     );
 };
