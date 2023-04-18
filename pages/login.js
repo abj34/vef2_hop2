@@ -60,7 +60,7 @@ const Login = () => {
       <p>
         Don't have an account?{' '}
         <a href="/register">
-          <a>Register</a>
+          Register
         </a>
       </p>
    </Layout>
