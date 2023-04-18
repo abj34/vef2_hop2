@@ -10,7 +10,7 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    {/*Svæði til að setja inn custom fonts eða einhverjar external skriptur <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&amp;display=swap" rel="stylesheet" />*/}
+                    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&amp;display=swap" rel="stylesheet" />
                 </Head>
                 <body>
                     <Main />
