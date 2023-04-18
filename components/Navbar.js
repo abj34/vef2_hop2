@@ -4,7 +4,11 @@ import { useRouter } from "next/router";
 import styles from '../public/navbar.module.css';
 
 const Navbar = ({admin}) => {
-    let currentRoute;
+
+    // Þarf að hafa þetta fyrir almennilega virkni á navbar (highlightar current page, sem er krafa)
+    const router = useRouter();
+    const currentRoute = router.pathname;
+    //let currentRoute;
     if(admin){
         return (
             <nav className={styles.nav}>
