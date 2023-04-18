@@ -2,15 +2,15 @@ import Header from './Header';
 import Footer from './Footer';
 import Navbar from './Navbar';
 
-const Layout = ({ children, title, user }) => {
+const Layout = ({ children, title, admin }) => {
     return (
         <div>
             <Header title={title} />
-            <Navbar />
+            <Navbar admin = {admin}/>
             <main>
                 { children }
             </main>
-            <Footer isLoggedIn={!!user} username={user} />
+            <Footer />
         </div>
     );
 };
