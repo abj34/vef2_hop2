@@ -140,7 +140,7 @@ form button  {
   text-align: center;
 }
 
-.option-button {
+.option button {
   background-color: var(--option-color);
   color: white;
   font-weight: bold;
