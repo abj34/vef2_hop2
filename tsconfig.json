@@ -23,7 +23,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/index.tsx"
-  ],
+, "pages/register.js", "components/AuthContext.js", "components/Footer.js"  ],
   "exclude": [
     "node_modules"
   ]
