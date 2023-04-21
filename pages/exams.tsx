@@ -23,6 +23,7 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
             const imageUrl = await imageUploading(newExamImageFile);
             setNewExamImage(imageUrl);
           }
+        
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/exams`, {
                 method: "POST",
