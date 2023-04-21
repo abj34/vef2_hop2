@@ -1,4 +1,4 @@
-import React,{ useContext, useState }from "react";
+import React,{ useEffect, useState }from "react";
 import Layout from "../components/Layout";
 import { AuthContext } from "../components/AuthContext";
 
@@ -13,15 +13,26 @@ type Exam = {
 export default function ExamList({ exams }: { exams: Exam[] }) {
     const [newExamName, setNewExamName] = useState("");
     const [newExamDescription, setNewExamDescription] = useState("");
-    const [newExamImage, setNewExamImage] = useState("");
-    const [newExamImageFile, setNewExamImageFile] = useState<File | null>(null);
-    const { user } = useContext(AuthContext);
+    const [newExamImage, setNewExamImage] = useState<File | null>(null);
+    const [username, setUsername] = useState('');
+    const [admin, setAdmin] = useState(false);
+    useEffect(() => {
+        if (typeof localStorage !== 'undefined') {
+            setUsername(localStorage.getItem('username'));
+            if(localStorage.getItem('admin')==='true'){
+                setAdmin(true);
+            }
+        }
+    }, []);
+
 
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("name", newExamName);
+        formData.append("description", newExamDescription);
          if (newExamImage) {
-            const imageUrl = await imageUploading(newExamImageFile);
-            setNewExamImage(imageUrl);
+            formData.append("image", newExamImage);
           }
         
         try {
@@ -31,7 +42,7 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-                body: JSON.stringify({ name: newExamName, description: newExamDescription, image: newExamImage })
+                body: formData,
             });
 
             if (response.ok) {
@@ -46,13 +57,14 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
         }
     };
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.files);
         if (e.target.files && e.target.files.length > 0) {
-          setNewExamImageFile(e.target.files[0]);
+          setNewExamImage(e.target.files[0]);
         }
     };
     return (
         <Layout title="Exams">
-            {user.is_admin && (
+            {admin && (
             <form onSubmit={handleFormSubmit}>
              <input
              type="text"
@@ -93,19 +105,4 @@ export const getServerSideProps = async () => {
             exams: result
         },
     };
-}
-
-export async function imageUploading( imageFile: File ): Promise<string> {
-    const formData = new FormData();
-
-    formData.append('file', imageFile);
-    formData.append('upload_preset', 'my_uploads');
-    const imageResponse = await fetch(`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}`, {
-        method: 'POST',
-        body: formData
-    }).then(r => r.json());
-    if (imageResponse.ok) {
-        console.log("Image uploaded");
-    }
-    return imageResponse.secure_url;
 }
