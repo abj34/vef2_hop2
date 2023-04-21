@@ -1,9 +1,31 @@
+import React, { useState } from "react";
 import Layout from '../../components/Layout';
+import Router from "next/router";
 
 export default function Exam({ exam }) {
     
     const answerArray = populateArray(exam);
+    const [data, setData] = useState({
+        finalScore: 0
+    });
 
+    const handleExamSubmit = async(e) => {
+        e.preventDefault();
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/exams/exam-${exam[0].exam_id}/results`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(answerArray),
+        })
+        .then(async(response) => {
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                setData(data);
+            }
+        })
+    };
     return (
         <Layout title="Index">
             {exam.map((question) => (
@@ -19,7 +41,10 @@ export default function Exam({ exam }) {
                     </div>
                 </div>
             ))}
-            <button>Senda inn svör</button>
+            <button onClick={handleExamSubmit} >Senda inn svör</button>
+            <div className="examScore">
+                <h3>Your score is: {data.finalScore} of {exam.length}</h3>
+            </div>
         </Layout>
     );
 }
@@ -36,7 +61,6 @@ export async function getServerSideProps({ params }) {
 }
 
 export function populateArray(exam, answerArray = []) {
-    //Create array from how many questions there are in the exam
     for (let i = 0; i < exam.length; i++) {
         answerArray.push({"guess_id": exam[i].question_id, "guess": null});
     }
@@ -44,9 +68,6 @@ export function populateArray(exam, answerArray = []) {
 }
 
 export function updateArray(questionId: String, choice: String, answerArray: Array<any>) {
-    //Create array from how many questions there are in the exam
-    //console.log(questionId);
-    //console.log(choice);
     Object.entries(answerArray).forEach(([key]) => {
         if (answerArray[key].guess_id === questionId) {
             answerArray[key].guess = choice;
