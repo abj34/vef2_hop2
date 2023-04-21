@@ -1,6 +1,5 @@
-import React,{ useEffect, useState }from "react";
-import Layout from "../components/Layout";
-import { AuthContext } from "../components/AuthContext";
+import React,{ useEffect, useState }from 'react';
+import Layout from '../components/Layout';
 
 type Exam = {
     id: number;
@@ -11,9 +10,9 @@ type Exam = {
 };
 
 export default function ExamList({ exams }: { exams: Exam[] }) {
-    const [newExamName, setNewExamName] = useState("");
-    const [newExamDescription, setNewExamDescription] = useState("");
-    const [newExamImage, setNewExamImage] = useState("");
+    const [newExamName, setNewExamName] = useState('');
+    const [newExamDescription, setNewExamDescription] = useState('');
+    const [newExamImage, setNewExamImage] = useState('');
     const [newExamImageFile, setNewExamImageFile] = useState<File | null>(null);
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
@@ -31,65 +30,68 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
         e.preventDefault();
          if (newExamImageFile) {
             const imageUrl = await imageUploading(newExamImageFile);
-            console.log(imageUrl.toString());
+            //console.log(imageUrl.toString());
             setNewExamImage(imageUrl);
           }
-        console.log({ name: newExamName, description: newExamDescription, image: newExamImage })
+        //console.log({ name: newExamName, description: newExamDescription, image: newExamImage })
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/exams`, {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: JSON.stringify({ name: newExamName, description: newExamDescription, image: newExamImage }),
+                body: JSON.stringify({ name: newExamName, 
+                                       description: newExamDescription, 
+                                       image: newExamImage 
+                                    }),
             });
 
             if (response.ok) {
-                console.log("Exam created!");
+                //console.log('Exam created!');
                 // Refresh the page to show the new exam in the list
                 window.location.reload();
             } else {
-                console.error("Failed to create exam:", response.status, response.statusText);
+                //console.error("Failed to create exam:", response.status, response.statusText);
             }
         } catch (error) {
-            console.error("Failed to create exam:", error);
+            //console.error("Failed to create exam:", error);
         }
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.files);
+        //console.log(e.target.files);
         if (e.target.files && e.target.files.length > 0) {
           setNewExamImageFile(e.target.files[0]);
         }
     };
     return (
-        <Layout title="Exams">
+        <Layout title='Exams'>
             {admin && (
             <form onSubmit={handleFormSubmit}>
              <input
-             type="text"
-             placeholder="Exam name"
+             type='text'
+             placeholder='Exam name'
              value={newExamName}
              onChange={(e) => setNewExamName(e.target.value)}
           />
           <textarea
-            placeholder="Exam description"
+            placeholder='Exam description'
             value={newExamDescription}
             onChange={(e) => setNewExamDescription(e.target.value)}
           />
-           <input type="file" onChange={handleFileChange} />
-          <button type="submit">Create Exam</button>
+           <input type='file' onChange={handleFileChange} />
+          <button type='submit'>Create Exam</button>
         </form>
       )}
             {exams.map((exam) => (
-                <div key={exam.id} className="examListing">
+                <div key={exam.id} className='examListing'>
                     <img src={exam.image} alt={exam.name}/>
                     <div>
                         <h2>{exam.name}</h2>
                         <p>{exam.description}</p>
                     </div>
-                    <a href={"/exams/" + exam.slug}>Take exam</a>
+                    <a href={'/exams/' + exam.slug}>Take exam</a>
                     
                 </div> 
             ))}
@@ -119,7 +121,7 @@ export async function imageUploading( imageFile: File ): Promise<string> {
         body: formData
     }).then(r => r.json());
     if (imageResponse.ok) {
-        console.log("Image uploaded");
+        //console.log("Image uploaded");
     }
     return imageResponse.secure_url;
 }

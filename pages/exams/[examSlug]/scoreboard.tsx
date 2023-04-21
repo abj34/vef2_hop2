@@ -1,10 +1,10 @@
-import Layout from "../../../components/Layout";
+import Layout from '../../../components/Layout';
 
 export default function ExamScoreboard({ scoreboard }) {
-    console.log(scoreboard);
+    //console.log(scoreboard);
 
     return (
-        <Layout title="Scoreboard">
+        <Layout title='Scoreboard'>
             {scoreboard.map((score) => (
                 <div key={score.id}>{score.username}
                     <p>Score: {score.highscore}</p>

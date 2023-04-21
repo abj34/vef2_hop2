@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode } from 'react';
 
 interface User {
   username: string;
@@ -20,7 +20,7 @@ const AuthContext = createContext<AuthContextValue>({
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User>({ username: '', is_admin: false }); // State to hold logged-in user data
 
-  const isAdmin = user && user.is_admin;
+  //const isAdmin = user && user.is_admin;
 
   return (
     <AuthContext.Provider value={{ user, setUser , is_admin: user && user.is_admin}}>
