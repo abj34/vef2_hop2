@@ -5,8 +5,8 @@ const Footer = () => {
     const { user } = useContext(AuthContext);
     return (
         <footer>
-            {user.username !== ''? (
-        <p>Logged in as {user.username}</p>):[]}
+            {localStorage.getItem("username")? (
+        <p>Logged in as {localStorage.getItem("username")}</p>):[]}
         <p>  Arnór Bragi Jóhannsson - Benedikt Þorsteinsson - Mikael Andri Ingason<br />Hópverkefni 2 - Vefforritun 2 - 2023</p> 
         </footer>
     );

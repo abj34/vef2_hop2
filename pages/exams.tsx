@@ -68,7 +68,6 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
           <button type="submit">Create Exam</button>
         </form>
       )}
-
             {exams.map((exam) => (
                 <div key={exam.id} className="examListing">
                     <img src={exam.image} alt={exam.name}/>

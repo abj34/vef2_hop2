@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Layout from '../../components/Layout';
 import Router from "next/router";
+import { AuthContext } from "../../components/AuthContext";
 
 export default function Exam({ exam }) {
-    
+   
+
     const answerArray = populateArray(exam);
     const [data, setData] = useState({
         finalScore: 0
     });
+    if (typeof window !== 'undefined') {
+        console.log(localStorage.getItem("token"));
+      }
 
     const handleExamSubmit = async(e) => {
+
         e.preventDefault();
         fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/exams/exam-${exam[0].exam_id}/results`, {
             method: "POST",
@@ -27,7 +33,7 @@ export default function Exam({ exam }) {
         })
     };
     return (
-        <Layout title="Index">
+        <Layout title={"Exam-"+ exam[0].exam_id}>
             {exam.map((question) => (
                 <div className="question" key={question.id}>
                     <h3>{question.title}</h3>
