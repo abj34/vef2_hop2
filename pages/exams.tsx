@@ -60,7 +60,7 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
         if (e.target.files && e.target.files.length > 0) {
           setNewExamImage(e.target.files[0]);
         }
-      };
+    };
     return (
         <Layout title="Exams">
             {admin && (
@@ -82,7 +82,7 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
       )}
             {exams.map((exam) => (
                 <div key={exam.id} className="examListing">
-                    <img src={exam.image} alt={exam.name} />
+                    <img src={exam.image} alt={exam.name}/>
                     <div>
                         <h2>{exam.name}</h2>
                         <p>{exam.description}</p>

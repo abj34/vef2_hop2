@@ -69,6 +69,7 @@ footer {
   background-color: var(--accent-color);
   text-decoration: none;
   border-radius: 50px;
+  cursor: pointer;
 }
 
 .formArea {
@@ -96,6 +97,7 @@ form button  {
   font-weight: bold;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .images {
@@ -148,8 +150,32 @@ form button  {
   padding: 1em;
   margin-bottom: 1em;
   text-align: center;
+  cursor: pointer;
 }
 
 .options button:hover {
   background-color: var(--accent-color);
+}
+
+.examScore {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.examScore button {
+  background-color: var(--accent-color);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 1em;
+  margin-bottom: 1em;
+  cursor: pointer;
+}
+
+form button:hover,
+.examScore button:hover,
+.examListing a:hover {
+  background-color: var(--option-color);
 }
