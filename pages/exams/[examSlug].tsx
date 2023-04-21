@@ -41,8 +41,8 @@ export default function Exam({ exam }) {
                     </div>
                 </div>
             ))}
-            <button onClick={handleExamSubmit} >Senda inn svör</button>
             <div className="examScore">
+                <button onClick={handleExamSubmit} >Submit answers</button>
                 <h3>Your score is: {data.finalScore} of {exam.length}</h3>
             </div>
         </Layout>
