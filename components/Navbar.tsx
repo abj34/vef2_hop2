@@ -15,7 +15,7 @@ const Navbar = ({admin}) => {
                 <ul>
                 <Link href='/admin' className={currentRoute === '/admin/' ? styles.active : styles.notActive}>Home</Link>
                 <Link href='/exams' className={currentRoute === '/exams' ? styles.active : styles.notActive}>Exams</Link>
-                <Link href='/logout' className={currentRoute === '/logout' ? styles.active : styles.notActive}>Log Out</Link>
+                <Link href='/' className={styles.notActive}>Log Out</Link>
                 </ul>
             </nav>
         );
