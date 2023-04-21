@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 const Footer = () => {
     const { user } = useContext(AuthContext);
     const [username, setUsername] = useState('');
-  useEffect(() => {
-    if (typeof localStorage !== 'undefined') {
+     useEffect(() => {
+        if (typeof localStorage !== 'undefined') {
         setUsername(localStorage.getItem('username'));
-      }
-  }, []);
+        }
+     }, []);
     return (
         <footer>
         {username ? <p>Logged in as {username}</p> : <p>Not logged in</p>}
