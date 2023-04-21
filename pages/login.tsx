@@ -13,7 +13,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-    fetch("https://vef2-hop1.onrender.com/users/login", {
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,12 +35,16 @@ const Login = () => {
           .then((response) => {
             // Handle response
             if (response.ok) {
+              console.log(username)
+              localStorage.setItem("username", username);
+              localStorage.setItem("admin", true.toString());
               setUser({ username, is_admin: true });
-              Router.push("/admin");
             } else {
+              localStorage.setItem("username", username);
+              localStorage.setItem("admin", false.toString());
               setUser({ username, is_admin: false });
-              Router.push("/users");
             }
+            Router.push("/");
           })
           .catch((error) => {
             console.error("Login failed:", error);
