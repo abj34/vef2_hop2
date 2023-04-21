@@ -20,7 +20,7 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
                         <p>{exam.description}</p>
                     </div>
                     <a href={"/exams/" + exam.slug}>Take exam</a>
-                    <a href={"/exams/scoreboard" + exam.slug}>See highscores</a>
+                    
                 </div> 
             ))}
         </Layout>

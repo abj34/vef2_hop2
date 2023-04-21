@@ -1,8 +1,6 @@
 :root {
   --accent-color: #43836b;
   --option-color: #2b2b2b;
-  --correct-option-color:#07941a;
-  --wrong-option-color:#d62222;
 }
 
 * {
@@ -23,7 +21,7 @@ html {
 main {
   margin: 0 auto;
   max-width: 60em;
-  height: 75vh;
+  min-height: 75vh;
   padding: 1em;
 }
 
@@ -129,10 +127,11 @@ form button  {
 }
 
 .options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 10px;
   align-content: center;
-  width: 200px;
-  display: flex;
-  flex-direction: column;
+  width: 500px;
   justify-content: center;
   margin: 0 auto;
   padding: 1em;
@@ -140,7 +139,7 @@ form button  {
   text-align: center;
 }
 
-.option button {
+.options button {
   background-color: var(--option-color);
   color: white;
   font-weight: bold;
@@ -149,4 +148,8 @@ form button  {
   padding: 1em;
   margin-bottom: 1em;
   text-align: center;
+}
+
+.options button:hover {
+  background-color: var(--accent-color);
 }
