@@ -7,6 +7,7 @@ import { AuthContext } from "../components/AuthContext";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const { setUser } = useContext(AuthContext);
 
     const handleLogin = async (e) => {
@@ -20,36 +21,41 @@ const Login = () => {
       body: JSON.stringify({ username, password }), // Send the login data as JSON
     })
     .then(async (response) => {
-      console.log("Login successful!");
-      const data = await response.json(); // Parse response body to JSON
-      const token = data.token; 
-      console.log(token)
-      localStorage.setItem("token", token);
-      // Set user in AuthContext
-
-      const headers = {
-        "Authorization": `Bearer ${token}`
-      };
-      
-      // Fetch API request with the JWT token in the headers
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, { headers })
-        .then(response => {
-          // Handle response
-          if (response.ok) {
-            setUser({ username, is_admin: true });
-            Router.push("/admin");
-            
-          } else {
-            setUser({ username, is_admin: false });
-            Router.push("/users");
-            
-          }
-        })
-        .catch(error => {
-          console.error("Login failed:", error);
-        });
-      });
-  };
+      if (response.ok) {
+        console.log("Login successful!");
+        const data = await response.json(); // Parse response body to JSON
+        const token = data.token;
+        localStorage.setItem("token", token);
+        // Set user in AuthContext
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        // Fetch API request with the JWT token in the headers
+        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, { headers })
+          .then((response) => {
+            // Handle response
+            if (response.ok) {
+              setUser({ username, is_admin: true });
+              Router.push("/admin");
+            } else {
+              setUser({ username, is_admin: false });
+              Router.push("/users");
+            }
+          })
+          .catch((error) => {
+            console.error("Login failed:", error);
+          });
+      } else {
+        console.error("Login failed:", response.status, response.statusText);
+        const errorData = await response.json(); // Parse error response body to JSON
+        setError(errorData.errors[0].msg);
+      }
+    })
+    .catch((error) => {
+      console.error("Login failed:", error);
+      setError("An error occurred while logging in. Please try again later.");
+    });
+};
 
     return (
         <Layout title="Login">
@@ -72,6 +78,8 @@ const Login = () => {
                 <p>Don't have an account?{' '}
                     <a href="/register">Register</a>
                 </p>
+                 
+                  <p key={error}>{error}</p>
             </div>
         </Layout>
     );
