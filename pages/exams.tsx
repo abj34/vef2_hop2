@@ -46,6 +46,7 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
         }
     };
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.files);
         if (e.target.files && e.target.files.length > 0) {
           setNewExamImage(e.target.files[0]);
         }
