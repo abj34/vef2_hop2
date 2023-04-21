@@ -1,5 +1,6 @@
-import React from "react";
+import React,{ useContext, useState }from "react";
 import Layout from "../components/Layout";
+import { AuthContext } from "../components/AuthContext";
 
 type Exam = {
     id: number;
@@ -10,8 +11,65 @@ type Exam = {
 };
 
 export default function ExamList({ exams }: { exams: Exam[] }) {
+    const [newExamName, setNewExamName] = useState("");
+    const [newExamDescription, setNewExamDescription] = useState("");
+    const [newExamImage, setNewExamImage] = useState<File | null>(null);
+    const { user } = useContext(AuthContext);
+
+    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("name", newExamName);
+        formData.append("description", newExamDescription);
+         if (newExamImage) {
+            formData.append("image", newExamImage);
+          }
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/exams`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: formData,
+            });
+
+            if (response.ok) {
+                console.log("Exam created!");
+                // Refresh the page to show the new exam in the list
+                window.location.reload();
+            } else {
+                console.error("Failed to create exam:", response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error("Failed to create exam:", error);
+        }
+    };
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+          setNewExamImage(e.target.files[0]);
+        }
+      };
     return (
         <Layout title="Exams">
+            {user.is_admin && (
+            <form onSubmit={handleFormSubmit}>
+             <input
+             type="text"
+             placeholder="Exam name"
+             value={newExamName}
+             onChange={(e) => setNewExamName(e.target.value)}
+          />
+          <textarea
+            placeholder="Exam description"
+            value={newExamDescription}
+            onChange={(e) => setNewExamDescription(e.target.value)}
+          />
+           <input type="file" onChange={handleFileChange} />
+          <button type="submit">Create Exam</button>
+        </form>
+      )}
+
             {exams.map((exam) => (
                 <div key={exam.id} className="examListing">
                     <img src={exam.image} alt={exam.name} />

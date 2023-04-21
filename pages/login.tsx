@@ -25,7 +25,7 @@ const Login = () => {
       const token = data.token; 
       console.log(token)
       localStorage.setItem("token", token);
-      setUser({ username }); // Set user in AuthContext
+      // Set user in AuthContext
 
       const headers = {
         "Authorization": `Bearer ${token}`
@@ -36,9 +36,13 @@ const Login = () => {
         .then(response => {
           // Handle response
           if (response.ok) {
+            setUser({ username, is_admin: true });
             Router.push("/admin");
+            
           } else {
+            setUser({ username, is_admin: false });
             Router.push("/users");
+            
           }
         })
         .catch(error => {
