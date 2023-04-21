@@ -13,9 +13,11 @@ type Exam = {
 export default function ExamList({ exams }: { exams: Exam[] }) {
     const [newExamName, setNewExamName] = useState("");
     const [newExamDescription, setNewExamDescription] = useState("");
-    const [newExamImage, setNewExamImage] = useState<File | null>(null);
+    const [newExamImage, setNewExamImage] = useState("");
+    const [newExamImageFile, setNewExamImageFile] = useState<File | null>(null);
     const [username, setUsername] = useState('');
     const [admin, setAdmin] = useState(false);
+
     useEffect(() => {
         if (typeof localStorage !== 'undefined') {
             setUsername(localStorage.getItem('username'));
@@ -25,16 +27,14 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
         }
     }, []);
 
-
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("name", newExamName);
-        formData.append("description", newExamDescription);
-         if (newExamImage) {
-            formData.append("image", newExamImage);
+         if (newExamImageFile) {
+            const imageUrl = await imageUploading(newExamImageFile);
+            console.log(imageUrl.toString());
+            setNewExamImage(imageUrl);
           }
-        
+        console.log({ name: newExamName, description: newExamDescription, image: newExamImage })
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/exams`, {
                 method: "POST",
@@ -42,7 +42,7 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-                body: formData,
+                body: JSON.stringify({ name: newExamName, description: newExamDescription, image: newExamImage }),
             });
 
             if (response.ok) {
@@ -56,10 +56,11 @@ export default function ExamList({ exams }: { exams: Exam[] }) {
             console.error("Failed to create exam:", error);
         }
     };
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.files);
         if (e.target.files && e.target.files.length > 0) {
-          setNewExamImage(e.target.files[0]);
+          setNewExamImageFile(e.target.files[0]);
         }
     };
     return (
@@ -105,4 +106,20 @@ export const getServerSideProps = async () => {
             exams: result
         },
     };
+}
+
+
+export async function imageUploading( imageFile: File ): Promise<string> {
+    const formData = new FormData();
+
+    formData.append('file', imageFile);
+    formData.append('upload_preset', 'my_uploads');
+    const imageResponse = await fetch(`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}`, {
+        method: 'POST',
+        body: formData
+    }).then(r => r.json());
+    if (imageResponse.ok) {
+        console.log("Image uploaded");
+    }
+    return imageResponse.secure_url;
 }
